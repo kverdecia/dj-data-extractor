@@ -1,2 +1,1 @@
-django-model-utils>=2.0
-# Additional requirements go here
+jmespath>=0.9.4

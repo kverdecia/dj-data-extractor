@@ -56,7 +56,7 @@ setup(
         'dataextractor',
     ],
     include_package_data=True,
-    install_requires=["django-model-utils>=2.0",],
+    install_requires=["jmespath>=0.9.4",],
     license="MIT",
     zip_safe=False,
     keywords='dj-data-extractor',

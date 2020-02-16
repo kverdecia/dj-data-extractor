@@ -159,5 +159,31 @@ class TestDataExtractor(TestCase):
             expression="`null`", omit_empty=True)
         self.assertEqual(extractor.get_data({}), OrderedDict())
 
+    def test_merge_data_extractors(self):
+        "test data extracted from diferent extractors."
+        extractor1 = models.DataExtractor(input_name="value1", output_name="value_a")
+        extractor2 = models.DataExtractor(input_name="value2", output_name="value_b")
+        data = {
+            'value1': 1,
+            'value2': 2,
+        }
+        output = OrderedDict([['value_a', 1], ['value_b', 2]])
+        self.assertEqual(models.DataExtractor.merge_data_extractors([extractor1, extractor2], data), 
+            output)
+
+    def test_merge_data_extractors_override(self):
+        "test data extracted from diferent extractors. overriding"
+        extractor1 = models.DataExtractor(input_name="value1", output_name="value_a")
+        extractor2 = models.DataExtractor(input_name="value2", output_name="value_b")
+        extractor3 = models.DataExtractor(input_name="value1", output_name="value_b")
+        data = {
+            'value1': 1,
+            'value2': 2,
+        }
+        output = OrderedDict([['value_a', 1], ['value_b', 1]])
+        extractors = [extractor1, extractor2, extractor3]
+        self.assertEqual(models.DataExtractor.merge_data_extractors(extractors, data), 
+            output)
+
     def tearDown(self):
         pass

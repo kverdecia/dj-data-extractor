@@ -53,3 +53,12 @@ class DataExtractor(models.Model):
         if self.omit_empty and value is None:
             return OrderedDict()
         return OrderedDict([[self.get_field_name(), value]])
+
+    @staticmethod
+    def merge_data_extractors(data_extractors, data):
+        result = OrderedDict()
+        for extractor in data_extractors:
+            extracted_data = extractor.get_data(data)
+            for key, value in extracted_data.items():
+                result[key] = value
+        return result

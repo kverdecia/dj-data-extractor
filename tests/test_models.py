@@ -121,6 +121,15 @@ class TestDataExtractor(TestCase):
             expression="if(`false`, `3`, `6`)", omit_empty=True)
         self.assertEqual(extractor2.get_value({}), 6)
 
+    def test_custom_function_json(self):
+        extractor = models.DataExtractor(input_name="input_fields",
+            expression="value | json(@)")
+        data = {"value": '{"item": "abc"}'}
+        self.assertEqual(extractor.get_value(data), {'item': 'abc'})
+        extractor2 = models.DataExtractor(input_name="input_fields",
+            expression="value | json(@) | item")
+        self.assertEqual(extractor2.get_value(data), "abc")
+
     def test_get_data_with_omit(self):
         "if omit attr is True returns an empty ordered dict."
         extractor = models.DataExtractor(input_name="input_field",

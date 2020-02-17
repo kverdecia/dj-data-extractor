@@ -1,6 +1,8 @@
 "Custom functions to use in expressions"
+import json
 import datetime
 from jmespath import functions
+
 
 
 class Functions(functions.Functions):
@@ -36,3 +38,7 @@ class Functions(functions.Functions):
             return then_value
         else:
             return else_value
+
+    @functions.signature({'types': ['string']})
+    def _func_json(self, json_str):
+        return json.loads(json_str)
